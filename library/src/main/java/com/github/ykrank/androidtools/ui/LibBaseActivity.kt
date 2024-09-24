@@ -7,21 +7,23 @@ import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import com.github.ykrank.androidtools.ui.internal.CoordinatorLayoutAnchorDelegate
 import com.github.ykrank.androidtools.ui.internal.DrawerLayoutDelegate
 import com.github.ykrank.androidtools.ui.internal.DrawerLayoutOp
 import com.github.ykrank.androidtools.util.L
 import com.github.ykrank.androidtools.widget.track.event.page.ActivityEndEvent
 import com.github.ykrank.androidtools.widget.track.event.page.ActivityStartEvent
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.common.base.Optional
+import com.kieronquinn.monetcompat.app.MonetCompatActivity
 import java.lang.ref.WeakReference
 
 /**
  * Created by ykrank on 2017/10/27.
  */
-abstract class LibBaseActivity : AppCompatActivity(), CoordinatorLayoutAnchorDelegate, DrawerLayoutOp {
+abstract class LibBaseActivity : MonetCompatActivity(), CoordinatorLayoutAnchorDelegate,
+    DrawerLayoutOp {
 
     private var mCoordinatorLayoutAnchorDelegate: CoordinatorLayoutAnchorDelegate? = null
     private var mDrawerLayoutDelegate: DrawerLayoutDelegate? = null
@@ -49,6 +51,7 @@ abstract class LibBaseActivity : AppCompatActivity(), CoordinatorLayoutAnchorDel
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DynamicColors.applyToActivitiesIfAvailable(application)
     }
 
     @CallSuper
@@ -95,7 +98,9 @@ abstract class LibBaseActivity : AppCompatActivity(), CoordinatorLayoutAnchorDel
         return null
     }
 
-    override fun setupFloatingActionButton(@DrawableRes resId: Int, onClickListener: View.OnClickListener) {
+    override fun setupFloatingActionButton(
+        @DrawableRes resId: Int, onClickListener: View.OnClickListener
+    ) {
         mCoordinatorLayoutAnchorDelegate?.setupFloatingActionButton(resId, onClickListener)
     }
 
@@ -119,10 +124,7 @@ abstract class LibBaseActivity : AppCompatActivity(), CoordinatorLayoutAnchorDel
     ): Optional<Snackbar> {
         return saveSnackbarWeakReference(
             mCoordinatorLayoutAnchorDelegate?.showSnackbar(
-                resId,
-                duration,
-                actionResId,
-                onActionClickListener
+                resId, duration, actionResId, onActionClickListener
             )
         )
     }
@@ -135,15 +137,14 @@ abstract class LibBaseActivity : AppCompatActivity(), CoordinatorLayoutAnchorDel
     ): Optional<Snackbar> {
         return saveSnackbarWeakReference(
             mCoordinatorLayoutAnchorDelegate?.showSnackbar(
-                text,
-                duration,
-                actionResId,
-                onActionClickListener
+                text, duration, actionResId, onActionClickListener
             )
         )
     }
 
-    override fun showLongSnackbarIfVisible(text: CharSequence, @StringRes actionResId: Int, onClickListener: View.OnClickListener): Optional<Snackbar> {
+    override fun showLongSnackbarIfVisible(
+        text: CharSequence, @StringRes actionResId: Int, onClickListener: View.OnClickListener
+    ): Optional<Snackbar> {
         return saveSnackbarWeakReference(mCoordinatorLayoutAnchorDelegate?.showSnackbar(text))
     }
 

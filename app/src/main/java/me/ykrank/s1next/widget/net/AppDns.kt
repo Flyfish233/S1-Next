@@ -1,24 +1,12 @@
 package me.ykrank.s1next.widget.net
 
-import android.content.Context
-import com.alibaba.sdk.android.httpdns.HttpDns
-import com.alibaba.sdk.android.httpdns.HttpDnsService
-import com.alibaba.sdk.android.httpdns.RequestIpType
-import com.github.ykrank.androidtools.util.L
 import com.github.ykrank.androidtools.widget.hostcheck.BaseDns
 import com.github.ykrank.androidtools.widget.hostcheck.BaseHostUrl
-import me.ykrank.s1next.BuildConfig
 import me.ykrank.s1next.data.api.Api
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-
-class AppDns(context: Context, baseHostUrl: BaseHostUrl) : BaseDns(baseHostUrl) {
-
-    private val httpDns: HttpDnsService? = if (BuildConfig.HTTP_DNS_ID.isEmpty() ||
-        BuildConfig.HTTP_DNS_SECRET.isEmpty()
-    ) null
-    else HttpDns.getService(context, BuildConfig.HTTP_DNS_ID, BuildConfig.HTTP_DNS_SECRET)//httpdns 解析服务
+class AppDns(baseHostUrl: BaseHostUrl) : BaseDns(baseHostUrl) {
 
     private val hosts = listOf(
         "img.saraba1st.com",
@@ -37,30 +25,18 @@ class AppDns(context: Context, baseHostUrl: BaseHostUrl) : BaseDns(baseHostUrl) 
                 exception = e
             }
 
-            if (address.isNullOrEmpty()) {
-                var hostIp = hostIpMap[hostname]
-                if (hostIp == null) {
-                    val httpDnsResult =
-                        httpDns?.getHttpDnsResultForHostSync(hostname, RequestIpType.auto)
-                    hostIp = ((httpDnsResult?.ips ?: arrayOf()) + (httpDnsResult?.ipv6s
-                        ?: arrayOf())).flatMap {
-                        InetAddress.getAllByName(it).toList()
-                    }
-                    if (hostIp.isNotEmpty()) {
-                        hostIpMap[hostname] = hostIp
-                        L.d("HttpDns ip: $hostIp")
-                    }
-                }
-                if (hostIp.isNotEmpty()) {
-                    return hostIp
-                } else {
+            return if (address.isNullOrEmpty()) {
+                val hostIp = hostIpMap[hostname]
+                if (hostIp.isNullOrEmpty()) {
                     if (exception == null) {
-                        throw UnknownHostException("Broken system behaviour for dns lookup of $hostname and http dns")
+                        throw UnknownHostException("Broken system behaviour for DNS lookup of $hostname.")
                     }
                     throw exception
+                } else {
+                    hostIp
                 }
             } else {
-                return address
+                address
             }
 
         }

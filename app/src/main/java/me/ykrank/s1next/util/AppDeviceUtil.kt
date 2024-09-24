@@ -8,19 +8,19 @@ import me.ykrank.s1next.R
 
 object AppDeviceUtil {
 
-    val packageInfo by lazy {
+    private val packageInfo by lazy {
         App.get().packageManager.getPackageInfo(packageName, 0)
     }
 
-    val packageName
+    private val packageName
         get() = App.get().packageName
 
     @JvmStatic
-    fun getVersionName(): String {
+    fun getVersionName(): String? {
         return packageInfo.versionName
     }
 
-    fun getAppFullVersionName(): String {
+    fun getAppFullVersionName(): String? {
         return getVersionName()
     }
 

@@ -41,7 +41,6 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/cardViewContainerBackground"
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/recycler_view_vertical_padding_for_card_view"
                 android:paddingBottom="@dimen/recycler_view_vertical_padding_for_card_view"

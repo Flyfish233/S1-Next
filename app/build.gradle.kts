@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -9,55 +7,34 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val properties = gradleLocalProperties(rootDir, providers)
-val mStoreFile: String? = properties.getProperty("storeFile")
-val mStorePassword: String? = properties.getProperty("storePassword")
-val mKeyAlias: String? = properties.getProperty("keyAlias")
-val mKeyPassword: String? = properties.getProperty("keyPassword")
-val httpDnsId = properties.getProperty("httpDnsId") ?: "\"\""
-val httpDnsSecret = properties.getProperty("httpDnsSecret") ?: "\"\""
-
 val appVersionCode = 91
 val appVersionName = "3.2"
 val appVersionSuffix = ""
 
 android {
     namespace = "me.ykrank.s1next"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "me.ykrank.s1next"
-        minSdk = 26
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        minSdk = 34
+        targetSdk = 35
         versionCode = appVersionCode
         versionName = "${appVersionName}.${appVersionCode}${appVersionSuffix}"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
-    signingConfigs {
-        if (!mStoreFile.isNullOrEmpty()) {
-            create("release") {
-                keyAlias = mKeyAlias
-                keyPassword = mKeyPassword
-                storeFile = file(mStoreFile)
-                storePassword = mStorePassword
-            }
-        }
+
+    kotlin {
+        jvmToolchain(21)
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     buildFeatures {
         dataBinding = true
         buildConfig = true
     }
+
     packaging {
         resources {
             excludes += "META-INF/LICENSE"
@@ -66,54 +43,24 @@ android {
             excludes += "META-INF/NOTICE.txt"
         }
     }
+
     buildTypes {
-        debug {
-            multiDexEnabled = true
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
-            if (signingConfigs.findByName("release") != null) {
-                signingConfig = signingConfigs.getByName("release")
-            }
-        }
-
-        create("alpha") {
-            multiDexEnabled = true
-            applicationIdSuffix = ".alpha"
-            versionNameSuffix = "-alpha"
-            if (signingConfigs.findByName("release") != null) {
-                signingConfig = signingConfigs.getByName("release")
-            }
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-
-            matchingFallbacks += listOf("release", "debug")
-        }
-
         release {
-            multiDexEnabled = true
-            if (signingConfigs.findByName("release") != null) {
-                signingConfig = signingConfigs.getByName("release")
-            }
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
     buildTypes.forEach {
         it.buildConfigField("String", "DB_NAME", "\"s1.db\"")
-        it.buildConfigField("String", "HTTP_DNS_ID", httpDnsId)
-        it.buildConfigField("String", "HTTP_DNS_SECRET", httpDnsSecret)
     }
 
     flavorDimensions += "market"
     productFlavors {
-        create("play") {
-            dimension = "market"
-            manifestPlaceholders["APP_CHANNEL"] = "play.google.com"
-            versionNameSuffix = "-play"
-        }
         create("normal") {
             dimension = "market"
             manifestPlaceholders["APP_CHANNEL"] = "normal"
@@ -128,7 +75,6 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
-val alphaImplementation by configurations
 dependencies {
     implementation(fileTree("libs") { include("*.jar", "*.aar") })
 
@@ -165,10 +111,8 @@ dependencies {
     implementation(libs.photoview)
     implementation(libs.quicksidebar)
 
-//  flipper
-    releaseImplementation(libs.flipper.noop)
-    alphaImplementation(libs.flipper.noop)
-    debugImplementation(libs.flipper)
+    //flipper
+    implementation(libs.flipper)
     debugImplementation(libs.soloader)
     debugImplementation(libs.flipper.network.plugin)
 
@@ -179,4 +123,6 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
+
+    implementation(libs.monet)
 }

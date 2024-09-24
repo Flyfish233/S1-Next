@@ -6,11 +6,10 @@ plugins {
 
 android {
     namespace = "com.github.ykrank.androidtools"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
-        multiDexEnabled = true
+        minSdk = 34
 
         vectorDrawables {
             useSupportLibrary = true
@@ -19,11 +18,11 @@ android {
         consumerProguardFile("proguard-rules.pro")
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "21"
     }
     buildFeatures {
         dataBinding = true
@@ -93,4 +92,6 @@ dependencies {
     implementation(libs.paperparcel.kotlin) // Optional
     implementation(libs.paperparcel.api)
     kapt(libs.paperparcel.compiler)
+
+    implementation(libs.monet)
 }

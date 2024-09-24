@@ -61,7 +61,6 @@
             android:paddingTop="@dimen/list_view_padding"
             android:text="@{userViewModel.user.logged ? userViewModel.user.name : @string/action_login}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="?attr/drawerTextColor"
             tools:text="@string/action_login" />
 
         <TextView
@@ -82,7 +81,6 @@
             android:paddingTop="@dimen/list_view_padding"
             android:text="@{userViewModel.signed ? @string/already_checked_in:@string/action_check_in}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="?attr/drawerTextColor"
             android:visibility="@{userViewModel.user.logged ? View.VISIBLE:View.GONE}" />
 
     </androidx.percentlayout.widget.PercentRelativeLayout>

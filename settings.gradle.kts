@@ -17,6 +17,18 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://jitpack.io")
+        maven("https://maven.aliyun.com/nexus/content/repositories/releases/") {
+            content {
+                includeGroup("com.aliyun.ams") //https://mvnrepository.com/artifact/com.aliyun.ams/alicloud-android-httpdns/1.1.9
+
+            }
+        }
+        maven("https://maven.aliyun.com/repository/jcenter") {
+            content {
+                includeGroup("com.shizhefei") //https://mvnrepository.com/artifact/com.shizhefei/LargeImageView/1.1.0
+                includeGroup("com.bigkoo") //https://mvnrepository.com/artifact/com.bigkoo/quicksidebar/1.0.3
+            }
+        }
     }
 }
 

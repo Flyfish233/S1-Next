@@ -5,17 +5,10 @@ plugins {
 
 android {
     namespace = "cn.dreamtobe.kpswitch"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 17
+        minSdk = 34
         consumerProguardFile("proguard-rules.pro")
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
-
-dependencies {
 }

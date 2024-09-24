@@ -13,6 +13,7 @@ import com.github.ykrank.androidautodispose.AndroidRxDispose
 import com.github.ykrank.androidlifecycle.event.ActivityEvent
 import com.github.ykrank.androidtools.util.L
 import com.github.ykrank.androidtools.util.RxJavaUtil
+import com.google.android.material.color.DynamicColors
 import com.google.common.base.Optional
 import io.reactivex.Single
 import me.ykrank.s1next.App

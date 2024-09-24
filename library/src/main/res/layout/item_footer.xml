@@ -12,7 +12,6 @@
             android:id="@+id/div_left"
             android:layout_width="48dp"
             android:layout_height="1px"
-            android:background="?attr/divisionBackground"
             app:layout_constraintBottom_toBottomOf="@id/tv_footer"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"

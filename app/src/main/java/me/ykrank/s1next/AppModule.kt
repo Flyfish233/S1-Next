@@ -59,7 +59,7 @@ class AppModule {
     @Provides
     @AppLife
     fun provideHttpDns(context: Context, baseHostUrl: AppHostUrl): Dns {
-        return AppDns(context, baseHostUrl)
+        return AppDns(baseHostUrl)
     }
 
     @Data

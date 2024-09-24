@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import com.github.ykrank.androidautodispose.AndroidRxDispose
@@ -20,6 +21,7 @@ import com.github.ykrank.androidtools.util.L
 import com.github.ykrank.androidtools.util.ResourceUtil
 import com.github.ykrank.androidtools.widget.EventBus
 import com.github.ykrank.androidtools.widget.track.DataTrackAgent
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.common.base.Optional
@@ -92,30 +94,7 @@ abstract class BaseActivity : LibBaseActivity() {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        // change the theme depends on preference
-        if (!mThemeManager.isDefaultTheme) {
-            if (isTranslucent) {
-                setTheme(mThemeManager.themeTranslucentStyle)
-            } else {
-                setTheme(mThemeManager.themeStyle)
-            }
-        }
-
-
         super.onCreate(savedInstanceState)
-
-        mEventBus.get()
-            .filter { o -> o is ThemeChangeEvent || o is FontSizeChangeEvent }
-            .to(AndroidRxDispose.withObservable(this, ActivityEvent.DESTROY))
-            .subscribe { o ->
-                window.setWindowAnimations(com.github.ykrank.androidtools.R.style.Animation_Recreate)
-                recreate()
-            }
-        mEventBus.get(NoticeRefreshEvent::class.java)
-            .ofType(NoticeRefreshEvent::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(AndroidRxDispose.withObservable(this, ActivityEvent.DESTROY))
-            .subscribe { event -> refreshNoticeMenuItem(event.isNewPm, event.isNewNotice) }
     }
 
     override fun setTitle(title: CharSequence?) {

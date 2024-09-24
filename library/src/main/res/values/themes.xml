@@ -23,7 +23,7 @@
     <!-- Use for other version (v19, v21 etc.) override -->
     <style name="Lib.V.Theme.Light.AfternoonTea" parent="Lib.Base.Theme.Light.AfternoonTea" />
 
-    <style name="Lib.Base.Theme.Light.AfternoonTea" parent="Lib.Base.Theme.Light">
+    <style name="Lib.Base.Theme.Light.AfternoonTea" parent="Lib.Base.Theme.Dark.Translucent.NightMode.Amoled">
         <item name="android:windowLightStatusBar">false</item>
 
         <item name="colorPrimaryDark">@color/saraba_primary_dark</item>

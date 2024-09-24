@@ -23,33 +23,14 @@
 
     <application
         android:name=".App"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Light.AfternoonTea"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="UnusedAttribute"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
-
-        <!-- Bugly -->
-        <meta-data
-            android:name="BUGLY_APP_CHANNEL"
-            android:value="${APP_CHANNEL}" />
-        <!-- 配置Bugly调试模式（true或者false）-->
-        <meta-data
-            android:name="BUGLY_ENABLE_DEBUG"
-            android:value="false" />
-
-        <!-- TalkingData-->
-        <meta-data
-            android:name="TD_APP_ID"
-            android:value="94B8FFC6A2CF49D6B1CBE8378B0B99C9" />
-        <meta-data
-            android:name="TD_CHANNEL_ID"
-            android:value="${APP_CHANNEL}" />
 
         <activity
             android:name=".view.activity.LoginActivity"

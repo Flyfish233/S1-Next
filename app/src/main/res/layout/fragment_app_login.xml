@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="me.ykrank.s1next.view.page.login.LoginFragment">
 
@@ -42,8 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/item_padding_micro"
-                android:src="@drawable/baseline_assignment_ind_24"
-                app:tint="?attr/iconTintColor" />
+                android:src="@drawable/baseline_assignment_ind_24" />
         </LinearLayout>
 
 
